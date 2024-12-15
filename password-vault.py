@@ -113,7 +113,7 @@ def openVault():
 
 
 
-        btn=ttk.Button(window2,text="SAVE",command=savePassword)
+        btn=ttk.Button(window2,text="Save",command=savePassword)
         btn.pack(pady=10)
 
     def recoveryScreen(key):
