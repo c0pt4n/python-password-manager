@@ -29,9 +29,7 @@ Before running the application, ensure you have the following installed:
    cd python-password-manager
    ```
 
-2. Create a directory named `images` in the project folder and add the required lock icon image named `lock.png`.
-
-3. Run the application:
+2. Run the application:
    ```bash
    python password-vault.py
    ```
