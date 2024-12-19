@@ -1,3 +1,4 @@
+import os
 import random
 import sqlite3
 import hashlib
@@ -74,7 +75,9 @@ class PasswordManagerApp(CTk):
 
     def create_main_ui(self):
         # Heading
-        image = Image.open("images\lock.png") 
+        current_dir = os.getcwd()
+        image_path = os.path.join(current_dir, "images", "lock.png")
+        image = Image.open(image_path)
         image_resized = image.resize((27, 27))
         img = ImageTk.PhotoImage(image_resized)
 
@@ -105,7 +108,7 @@ class PasswordManagerApp(CTk):
                 command=lambda v: self.update_slider_value(self.symbol_slider_value, v)).pack(pady=5)
 
     # Generate Password Button
-        self.generate_btn = CTkButton(self, text="Generate Password", 
+        self.generate_btn = CTkButton(self, text="Generate Password",
                             command=self.generate_password,
                             fg_color="#008000",       # Set the button's background color
                             hover_color="#355E3B")         # Set the hover color
@@ -265,7 +268,7 @@ class PasswordManagerApp(CTk):
 
         reset_btn = CTkButton(reset_window, text="Reset Password", command=check_recovery_key)
         reset_btn.pack(pady=10)
-    
+
     def open_vault(self):
         """Open the vault after verifying the master password."""
         def check_master_password():
@@ -327,7 +330,7 @@ class VaultWindow(CTkToplevel):
         CTkLabel(self, text="Passwords Table", font=("Arial", 28)).pack(pady=20)
 
         # Add Entry Button
-        add_btn = CTkButton(self, text="Add Entry", command=self.add_entry, 
+        add_btn = CTkButton(self, text="Add Entry", command=self.add_entry,
                     fg_color="#008000",  # Set background color (green)
                     hover_color="#355E3B",  # Set hover background color (dark green)
                     text_color="white")  # Set text color (white)
