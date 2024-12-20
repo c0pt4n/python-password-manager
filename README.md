@@ -27,6 +27,7 @@ Before running the application, ensure you have the following installed:
    ```bash
    git clone https://github.com/BolaWagdy/python-password-manager.git
    cd python-password-manager
+   pip install -r requirements.txt
    ```
 
 2. Run the application:
