@@ -79,12 +79,11 @@ class PasswordManagerApp(CTk):
         image_path = os.path.join(current_dir, "images", "lock.png")
         image = Image.open(image_path)
         image_resized = image.resize((27, 27))
-        img = ImageTk.PhotoImage(image_resized)
 
+        img = CTkImage(light_image=image_resized, size=(27, 27))
     # Create the label with the image beside the text
-        label = CTkLabel(self, text="Password Generator ", font=("Arial", 26), image=img, compound="right")
+        label = CTkLabel(self, text="Password Generator", font=("Arial", 26), image=img, compound="right")
         label.pack(pady=15)
-        label.image = img
 
     # Letter selection
         CTkLabel(self, text="Number of Letters:").pack()
