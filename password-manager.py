@@ -29,7 +29,6 @@ kdf = PBKDF2HMAC(
 # Global variable for encryption key
 encryptionkey = Fernet.generate_key()
 
-
 class PasswordManagerApp(CTk):
     def __init__(self):
         super().__init__()
@@ -372,7 +371,6 @@ class PasswordManagerApp(CTk):
         )
         reset_btn.pack(pady=5)
 
-
 class VaultWindow(CTkToplevel):
     def __init__(self, db, cursor):
         super().__init__()
@@ -386,7 +384,7 @@ class VaultWindow(CTkToplevel):
         self.create_vault_ui()
 
     def create_vault_ui(self):
-        CTkLabel(self, text="Passwords Table", font=("Arial", 28)).pack(pady=20)
+        CTkLabel(self, text="Password Vault", font=("Arial", 28)).pack(pady=20)
 
         # Add Entry Button
         add_btn = CTkButton(
@@ -449,7 +447,7 @@ class VaultWindow(CTkToplevel):
                     iid=entry[0],
                 )
         else:
-            self.vault_table.insert("", "end", values=("No entries found", "", ""))
+            self.vault_table.insert("", "end", values=("", "No entries found", ""))
 
     def add_entry(self):
         account = simpledialog.askstring("Input", "Enter Account Name:")
@@ -543,7 +541,6 @@ class VaultWindow(CTkToplevel):
             self.context_menu.post(event.x_root, event.y_root)
         finally:
             self.context_menu.grab_release()
-
 
 if __name__ == "__main__":
     # Set encryption key globally
