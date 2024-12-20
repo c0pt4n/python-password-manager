@@ -13,8 +13,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.fernet import Fernet
 from tkinter import ttk
 from tkinter import Menu
-from tkinter import PhotoImage
-from PIL import Image, ImageTk
+from PIL import Image
 
 # Set up the appearance of CustomTkinter
 set_appearance_mode("dark")
