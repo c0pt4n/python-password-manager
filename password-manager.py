@@ -239,7 +239,7 @@ class PasswordManagerApp(CTk):
 
             def finish_and_login():
                 recovery_window.destroy()
-                self.vault_window()  # Direct the user to the vault window
+                VaultWindow(self.db, self.cursor).mainloop()  # Open the vault window
 
             done_button = CTkButton(
                 recovery_window, text="Done", command=finish_and_login
