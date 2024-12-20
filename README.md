@@ -49,16 +49,19 @@ This is a feature-rich Password Manager and Generator application built with Pyt
 ### Steps to Run
 1. Clone this repository:
    ```bash
-   git clone https://g...content-available-to-author-only...b.com/BolaWagdy/python-password-manager.git
+   git clone https://github.com/BolaWagdy/python-password-manager.git
    cd python-password-manager
-   pip install -r requirements.txt
    ```
-2. Run the application:
+2. Install Requirements:
+   ```bash
+   pip install -r requirements.txt
+   ```   
+3. Run the application:
    ```bash
    python password-vault.py
    ```
 
-3. Follow the prompts to set up your master password and recovery key.
+4. Follow the prompts to set up your master password and recovery key.
 
 ## Usage
 1. **Password Generator**:
@@ -83,12 +86,17 @@ This is a feature-rich Password Manager and Generator application built with Pyt
 ```
 └── 📁images
     └── lock.png
+    └── pass.jpeg
 └──.gitignore
-└── PROJECT-REPORT.docx
 └── password-manager.py
 └── README.md
 └── requirements.txt
 ```
+
+- `images/`: Folder for UI images.
+- `password-manager.py`: Contains all logic for the application.
+- `requirements`: Includes all the dependencies your project needs to run.
+
 
 ## Security
 
