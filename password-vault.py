@@ -178,6 +178,14 @@ class PasswordManagerApp(CTk):
     def hash_password(self, input_password):
         return hashlib.sha256(input_password.encode()).hexdigest()
 
+    def vault_window(self):
+        """Create and display the vault window."""
+        vault_window = CTkToplevel(self)
+        vault_window.title("Vault")
+        vault_window.geometry("500x400")
+        vault_window.resizable(False, False)
+
+
     def initialize_master_password(self):
         """Prompt the user to set up a master password and recovery key."""
 
@@ -343,6 +351,7 @@ class PasswordManagerApp(CTk):
             return
 
         # Create password entry window
+        global vault_window
         vault_window = CTkToplevel(self)
         vault_window.title("Unlock Vault")
         vault_window.geometry("300x200")
