@@ -81,7 +81,7 @@ class PasswordManagerApp(CTk):
         image_resized = image.resize((27, 27))
         img = ImageTk.PhotoImage(image_resized)
 
-# Create the label with the image beside the text
+    # Create the label with the image beside the text
         label = CTkLabel(self, text="Password Generator ", font=("Arial", 26), image=img, compound="right")
         label.pack(pady=15)
         label.image = img
