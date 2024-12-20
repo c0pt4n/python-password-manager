@@ -27,7 +27,7 @@ kdf = PBKDF2HMAC(
 )
 
 # Global variable for encryption key
-encryptionkey = 0
+encryptionkey = Fernet.generate_key()
 
 
 class PasswordManagerApp(CTk):
