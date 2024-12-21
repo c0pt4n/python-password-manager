@@ -29,6 +29,7 @@ kdf = PBKDF2HMAC(
 # Global variable for encryption key
 encryptionkey = Fernet.generate_key()
 
+
 class PasswordManagerApp(CTk):
     def __init__(self):
         super().__init__()
@@ -371,6 +372,7 @@ class PasswordManagerApp(CTk):
         )
         reset_btn.pack(pady=5)
 
+
 class VaultWindow(CTkToplevel):
     def __init__(self, db, cursor):
         super().__init__()
@@ -541,6 +543,7 @@ class VaultWindow(CTkToplevel):
             self.context_menu.post(event.x_root, event.y_root)
         finally:
             self.context_menu.grab_release()
+
 
 if __name__ == "__main__":
     # Set encryption key globally
