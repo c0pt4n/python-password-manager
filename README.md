@@ -94,18 +94,12 @@ This is a feature-rich Password Manager and Generator application built with Pyt
 ```
 
 - `images/`: Folder for UI images.
+- `.gitignore`: Ignored files.
 - `password-manager.py`: Contains all logic for the application.
 - `requirements`: Includes all the dependencies your project needs to run.
 
-
-## Security
-
-- Passwords are encrypted using **AES encryption** from the `cryptography` library.
-- The master password and recovery key are hashed using **SHA-256** for secure storage.
-
-<!-- ## Screenshots
+## Screenshots
 
 | **Password Generator** | **Vault** |
 |-------------------------|-----------|
-| ![Password Generator](https://v...content-available-to-author-only...r.com/400x300?text=Password+Generator) | ![Vault](https://v...content-available-to-author-only...r.com/400x300?text=Vault+UI) |
- -->
+| ![Password Generator](images/program.png) | ![Vault](images/vault.png) |
