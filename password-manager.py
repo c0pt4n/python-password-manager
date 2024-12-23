@@ -179,10 +179,16 @@ class PasswordManagerApp(CTk):
 
     def initialize_master_password(self):
         """Prompt the user to set up a master password and recovery key."""
-
         def save_master_password():
             master_password = password_entry.get()
             confirm_password = confirm_entry.get()
+
+            # Check if fields are empty
+            if not master_password or not confirm_password:
+                messagebox.showerror("Error", "Password fields cannot be empty!")
+                password_entry.delete(0, "end")
+                confirm_entry.delete(0, "end")
+                return
 
             if master_password == confirm_password:
                 hashed_password = self.hash_password(master_password)
@@ -259,21 +265,23 @@ class PasswordManagerApp(CTk):
         setup_window.geometry("350x250")
         setup_window.resizable(False, False)
 
-        CTkLabel(setup_window, text="Create Master Password", font=("Arial", 14)).pack(
-            pady=10
+        CTkLabel(setup_window, text="Create Master Password", font=("Arial", 13)).pack(
+            pady=5
         )
 
         password_entry = CTkEntry(setup_window, show="*", width=200)
         password_entry.pack(pady=5)
         password_entry.focus()
 
-        CTkLabel(setup_window, text="Confirm Master Password").pack(pady=5)
+        CTkLabel(setup_window, text="Confirm Master Password", font=("Arial", 13)).pack(
+        pady=5
+        )
 
         confirm_entry = CTkEntry(setup_window, show="*", width=200)
         confirm_entry.pack(pady=5)
 
         save_btn = CTkButton(setup_window, text="Save", command=save_master_password)
-        save_btn.pack(pady=10)
+        save_btn.pack(pady=15)
 
     def reset_master_password(self):
         """Allow the user to reset the master password using the recovery key."""
