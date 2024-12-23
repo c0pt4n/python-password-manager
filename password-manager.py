@@ -85,7 +85,7 @@ class PasswordManagerApp(CTk):
         # Create the label with the image beside the text
         label = CTkLabel(
             self,
-            text="Password Generator",
+            text="Password Generator ",
             font=("Arial", 26),
             image=img,
             compound="right",
@@ -479,9 +479,22 @@ class VaultWindow(CTkToplevel):
     def copy_password(self):
         selected_item = self.vault_table.focus()
         if selected_item:
-            password = self.vault_table.item(selected_item, "values")[2]
-            pyperclip.copy(password)
-            messagebox.showinfo("Copied", "Password copied to clipboard!")
+            # Get the ID of the selected item to query the database
+            entry_id = int(selected_item)
+        
+            # Retrieve the original encrypted password from the database
+            self.cursor.execute("SELECT PASSWORD FROM vault WHERE id = ?", (entry_id,))
+            result = self.cursor.fetchone()
+        
+            if result:
+                encrypted_password = result[0]
+                # Decrypt the password
+                decrypted_password = Fernet(encryptionkey).decrypt(encrypted_password).decode()
+                # Copy the decrypted password to the clipboard
+                pyperclip.copy(decrypted_password)
+                messagebox.showinfo("Copied", "Password copied to clipboard!")
+            else:
+                messagebox.showwarning("Warning", "Failed to retrieve the password!")
         else:
             messagebox.showwarning("Warning", "No entry selected!")
 
@@ -490,32 +503,68 @@ class VaultWindow(CTkToplevel):
         if selected_item:
             current_account = self.vault_table.item(selected_item, "values")[0]
             current_username = self.vault_table.item(selected_item, "values")[1]
-            current_password = self.vault_table.item(selected_item, "values")[2]
 
-            # Get updated values
-            new_account = simpledialog.askstring(
-                "Input", "Update Account Name:", initialvalue=current_account
-            )
-            new_username = simpledialog.askstring(
-                "Input", "Update Username:", initialvalue=current_username
-            )
-            new_password = simpledialog.askstring(
-                "Input", "Update Password:", initialvalue=current_password
-            )
+            # Create a selection window for the user to choose what to update
+            update_window = CTkToplevel(self)  # Ensure CTkToplevel is used from customtkinter
+            update_window.title("Update Entry")
+            update_window.geometry("350x200")
+            update_window.resizable(False, False)
 
-            if new_account and new_username and new_password:
-                encrypted_password = Fernet(encryptionkey).encrypt(
-                    new_password.encode()
-                )
-                self.cursor.execute(
-                    "UPDATE vault SET ACCOUNT = ?, USERNAME = ?, PASSWORD = ? WHERE id = ?",
-                    (new_account, new_username, encrypted_password, selected_item),
-                )
-                self.db.commit()
-                messagebox.showinfo("Success", "Entry Updated Successfully!")
+            CTkLabel(update_window, text="What would you like to update?", font=("Arial", 14)).pack(pady=10)
+
+            # Create a dropdown menu for update options
+            options = ["Account Name", "Username", "Password"]
+            update_choice = StringVar(value=options[0])
+            dropdown = CTkOptionMenu(update_window, values=options, variable=update_choice)
+            dropdown.pack(pady=5)
+
+            # Define function to handle the update based on user choice
+            def apply_update():
+                choice = update_choice.get()
+                if choice == "Account Name":
+                    new_account = simpledialog.askstring(
+                        "Input", "Update Account Name:", initialvalue=current_account
+                    )
+                    if new_account:
+                        self.cursor.execute(
+                            "UPDATE vault SET ACCOUNT = ? WHERE id = ?", (new_account, selected_item)
+                        )
+                        self.db.commit()
+                        messagebox.showinfo("Success", "Account Name Updated Successfully!")
+                    else:
+                        messagebox.showwarning("Warning", "Account Name cannot be empty!")
+                elif choice == "Username":
+                    new_username = simpledialog.askstring(
+                        "Input", "Update Username:", initialvalue=current_username
+                    )
+                    if new_username:
+                        self.cursor.execute(
+                            "UPDATE vault SET USERNAME = ? WHERE id = ?", (new_username, selected_item)
+                        )
+                        self.db.commit()
+                        messagebox.showinfo("Success", "Username Updated Successfully!")
+                    else:
+                        messagebox.showwarning("Warning", "Username cannot be empty!")
+                elif choice == "Password":
+                    new_password = simpledialog.askstring("Input", "Update Password:")
+                    if new_password:
+                        encrypted_password = Fernet(encryptionkey).encrypt(new_password.encode())
+                        self.cursor.execute(
+                            "UPDATE vault SET PASSWORD = ? WHERE id = ?", (encrypted_password, selected_item)
+                        )
+                        self.db.commit()
+                        messagebox.showinfo("Success", "Password Updated Successfully!")
+                    else:
+                        messagebox.showwarning("Warning", "Password cannot be empty!")
+
+                # Reload entries and close update window
                 self.load_entries()
-            else:
-                messagebox.showwarning("Warning", "All fields are required!")
+                update_window.destroy()
+
+            # Add "Apply" button to confirm the update
+            apply_btn = CTkButton(update_window, text="Apply", command=apply_update)
+            apply_btn.pack(pady=20)
+
         else:
             messagebox.showwarning("Warning", "No entry selected!")
 
