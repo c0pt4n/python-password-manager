@@ -1,3 +1,4 @@
+import string
 import os
 import random
 import sqlite3
@@ -189,6 +190,20 @@ class PasswordManagerApp(CTk):
                 password_entry.delete(0, "end")
                 confirm_entry.delete(0, "end")
                 return
+
+            # Check if the master password is at least 6 characters long
+            if len(master_password) < 6:
+                messagebox.showerror("Error", "Master password should be at least 6 characters long.")
+                password_entry.delete(0, "end")
+                confirm_entry.delete(0, "end")
+                return  # Exit the function early
+
+            # Check for at least one lowercase, one uppercase, and one special character
+            if (not any(c.islower() for c in master_password) or not any(c.isupper() for c in master_password) or not any(c in string.punctuation for c in master_password)):
+                messagebox.showerror("Error", "Master password must contain at least one lowercase letter, one uppercase letter, and one special character.")
+                password_entry.delete(0, "end")
+                confirm_entry.delete(0, "end")
+                return  # Exit the function early
 
             if master_password == confirm_password:
                 hashed_password = self.hash_password(master_password)
@@ -489,11 +504,11 @@ class VaultWindow(CTkToplevel):
         if selected_item:
             # Get the ID of the selected item to query the database
             entry_id = int(selected_item)
-        
+
             # Retrieve the original encrypted password from the database
             self.cursor.execute("SELECT PASSWORD FROM vault WHERE id = ?", (entry_id,))
             result = self.cursor.fetchone()
-        
+
             if result:
                 encrypted_password = result[0]
                 # Decrypt the password
